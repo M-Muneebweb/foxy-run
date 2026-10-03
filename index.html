@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Foxy Run</title>
+	<meta charset="utf-8">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="viewport" content="initial-scale=1.0,maximum-scale=1.01, minimal-ui" />
+	<style>
+		body {
+			margin: 0px;
+			padding: 0px;
+			width: 100%;
+			background: url("images/bg.jpg");
+		}	
+
+		canvas {	
+			-ms-touch-action: none;
+			image-rendering: -o-crisp-edges;           
+			image-rendering: optimize-contrast;        
+			-ms-interpolation-mode: nearest-neighbor;  
+			-webkit-tap-highlight-color: rgba(0,0,0,0);
+			-moz-tap-highlight-color: rgba(0,0,0,0);
+			tap-highlight-color: rgba(0,0,0,0);
+			user-select: none;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+		} 
+	</style>
+</head>
+<body> 
+	<div id="viewporter">
+	   <canvas id="canvas" moz-opaque></canvas>
+	   <script type="text/javascript">
+		document.addEventListener('touchmove', function(e){e.preventDefault()}, false);
+		</script>
+	</div>
+</body>
+    <script type="text/javascript">
+	  function launchFullscreen(element) {
+		  element.style.backgroundImage = "url('images/bg.jpg')"
+		  if(element.requestFullscreen) {
+			element.requestFullscreen();
+		  } else if(element.mozRequestFullScreen) {
+			element.mozRequestFullScreen();
+		  } else if(element.webkitRequestFullscreen) {
+			element.webkitRequestFullscreen();
+		  } else if(element.msRequestFullscreen) {
+			element.msRequestFullscreen();
+		  }
+		}
+	</script>
+
+	<script src="TweenMax.min.js"></script>
+	<script src="howler.js"></script>
+	<script src="VisibilityManager.js"></script>
+	<script src="app.js"></script>
+	<script>
+		window.GD_OPTIONS = {
+			gameId: "46deaf416d074aa5acdeef85da51519e",
+			pauseGame: function() { if (window.extPause) window.extPause(true); },
+			resumeGame: function() { if (window.extPause) window.extPause(false); },
+			onEvent: function(event) {
+				switch (event.name) {
+					case "SDK_GAME_START":
+						if (window.extPause) window.extPause(false);
+						break;
+					case "SDK_GAME_PAUSE":
+						if (window.extPause) window.extPause(true);
+						break;
+				}
+			}
+		};
+	</script>
+	<script>
+		if (!window.gdsdk) {
+			window.gdsdk = {
+				showAd: function(type) {
+					return new Promise(function(resolve, reject) {
+						if (type === "rewarded") {
+							setTimeout(function() { if (window.extRewarded) window.extRewarded(); resolve() }, 100);
+						} else {
+							resolve();
+						}
+					});
+				},
+				preloadAd: function() { return Promise.resolve(); }
+			};
+			window.gdApi = window.gdsdk;
+		}
+	</script>
+	<script src="https://html5.api.gamedistribution.com/main.min.js"></script>
+</html>
